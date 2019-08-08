@@ -12,14 +12,12 @@ class Home extends React.Component<{}, IState> {
   constructor(props: {}) {
     super(props);
     this.state = {
-      pokemons: [{ name: 'Carapuce', id: 7 },
-      { name: 'Carabaffe', id: 8 },
-      { name: 'Tortank', id: 9 },]
+      pokemons: []
     }
   }
   componentDidMount() {
     makeGetRequest('/pokemon').then(resp => this.setState(old => ({
-      pokemons: [...old.pokemons, resp.body[0]],
+      pokemons: [...resp.body],
     })));
   }
   render(): React.ReactNode {
@@ -29,6 +27,7 @@ class Home extends React.Component<{}, IState> {
         {pokemons.length > 0 && pokemons.map(p => (
           <Pokemon key={p.id} name={p.name} id={p.id} />
         ))}
+        {pokemons.length === 0 && (<div>Loading...</div>)}
       </Style.Intro>
     );
   }
