@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { IPokemon, Pokemon } from './../../components/Pokemon';
 import { makeGetRequest } from './../../services/networking/request'
 
@@ -25,9 +26,9 @@ class Home extends React.Component<{}, IState> {
     return (
       <Style.Intro>
         {pokemons.length > 0 && pokemons.map(p => (
-          <Pokemon key={p.id} name={p.name} id={p.id} />
+          <Pokemon key={p.id} name={p.name} id={p.id} weight={p.weight} height={p.height} />
         ))}
-        {pokemons.length === 0 && (<div>Loading...</div>)}
+        {pokemons.length === 0 && (<div><FormattedMessage id="homePage.loading" /></div>)}
       </Style.Intro>
     );
   }

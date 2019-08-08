@@ -13,5 +13,15 @@
     "back": "Retour",
     "api-to-translate-example": "Ce message est traduit en utilisant directement l'API react-intl",
     "add-github-username": "Entrer un username github"
+  },
+  "pokemon": {
+    "id": "identifiant",
+    "weight": "poids",
+    "height": "taille",
+    "weightUnit": "kg",
+    "heightUnit": "cm"
+  },
+  "homePage": {
+    "loading": "Chargement..."
   }
 }
