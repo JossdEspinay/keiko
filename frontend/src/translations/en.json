@@ -15,13 +15,14 @@
     "add-github-username": "Enter a github username"
   },
   "pokemon": {
-    "id": "id",
-    "weight": "weight",
-    "height": "height",
+    "id": "Id",
+    "weight": "Weight",
+    "height": "Height",
     "weightUnit": "kg",
     "heightUnit": "cm"
   },
   "homePage": {
-    "loading": "Loading..."
+    "loading": "Loading...",
+    "title": "POKEDEX"
   }
 }

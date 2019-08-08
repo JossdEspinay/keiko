@@ -4,6 +4,7 @@ import en from 'react-intl/locale-data/en';
 import fr from 'react-intl/locale-data/fr';
 
 import { flattenMessages } from 'services/i18n/intl';
+import { createGlobalStyle, ThemeProvider } from 'styled-components'
 import enMessages from 'translations/en.json';
 import frMessages from 'translations/fr.json';
 import Style from './Root.style';
@@ -20,6 +21,7 @@ interface Props {
 }
 
 const Root: React.FunctionComponent<Props> = ({ children }) => (
+
   <IntlProvider locale="fr" messages={locales.fr}>
     <Style.Wrapper>
       <Style.Header>

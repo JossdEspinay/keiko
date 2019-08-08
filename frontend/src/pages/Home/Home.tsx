@@ -24,12 +24,15 @@ class Home extends React.Component<{}, IState> {
   render(): React.ReactNode {
     const pokemons: IPokemon[] = this.state.pokemons;
     return (
-      <Style.Intro>
-        {pokemons.length > 0 && pokemons.map(p => (
-          <Pokemon key={p.id} name={p.name} id={p.id} weight={p.weight} height={p.height} />
-        ))}
-        {pokemons.length === 0 && (<div><FormattedMessage id="homePage.loading" /></div>)}
-      </Style.Intro>
+      <>
+        <Style.Title><FormattedMessage id="homePage.title" /></Style.Title>
+        <Style.Wrapper>
+          {pokemons.length > 0 && pokemons.map(p => (
+            <Pokemon key={p.id} name={p.name} id={p.id} weight={p.weight} height={p.height} />
+          ))}
+          {pokemons.length === 0 && (<div><FormattedMessage id="homePage.loading" /></div>)}
+        </Style.Wrapper>
+      </>
     );
   }
 }
