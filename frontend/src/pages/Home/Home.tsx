@@ -1,4 +1,5 @@
 import * as React from 'react';
+import errorSvg from './../../assets/svg/error.svg';
 import loaderSvg from './../../assets/svg/loader.svg';
 
 import { FormattedMessage } from 'react-intl';
@@ -9,6 +10,7 @@ import Style from './Home.style';
 interface IState {
   pokemons: IPokemon[],
   loading: boolean,
+  error: boolean,
 }
 class Home extends React.Component<{}, IState> {
 
@@ -16,17 +18,26 @@ class Home extends React.Component<{}, IState> {
     super(props);
     this.state = {
       loading: true,
-      pokemons: []
+      pokemons: [],
+      error: false,
     }
   }
   componentDidMount() {
-    makeGetRequest('/pokemon').then(resp => this.setState(old => ({
-      pokemons: [...resp.body],
-      loading: false,
-    })));
+    makeGetRequest('/pokemon')
+      .then(resp => this.setState(old => ({
+        pokemons: [...resp.body],
+        loading: false,
+      })))
+      .catch(() => {
+        this.setState((old => ({
+          ...old,
+          loading: false,
+          error: true
+        })))
+      });
   }
   render(): React.ReactNode {
-    const { pokemons, loading } = this.state;
+    const { pokemons, loading, error } = this.state;
     return (
       <>
         <Style.Title><FormattedMessage id="homePage.title" /></Style.Title>
@@ -34,7 +45,9 @@ class Home extends React.Component<{}, IState> {
           {pokemons.length > 0 && pokemons.map(p => (
             <Pokemon key={p.id} name={p.name} id={p.id} weight={p.weight} height={p.height} />
           ))}
-          {loading && (<img src={loaderSvg} />)}
+          {loading && (<img style={{ height: 400 }} src={loaderSvg} />)}
+          {error && (<><img style={{ height: 400 }} src={errorSvg} />
+            <div><FormattedMessage id="errors.general" /></div></>)}
         </Style.Wrapper>
       </>
     );

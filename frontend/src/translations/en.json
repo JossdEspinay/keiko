@@ -24,5 +24,8 @@
   "homePage": {
     "loading": "Loading...",
     "title": "Pokedex"
+  },
+  "errors": {
+    "general": "Oups! An error occured..."
   }
 }
