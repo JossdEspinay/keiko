@@ -2,16 +2,15 @@ import React, { PureComponent } from 'react';
 
 import './Pokemon.style.css';
 
-interface IProps {
+export interface IPokemon {
     name: string;
     id: number;
     url: string;
 };
 
-class Pokemon extends PureComponent<IProps> {
+class Pokemon extends PureComponent<IPokemon> {
 
   render() {
-
     const {name, id, url} = this.props;
     return (
       <div>
@@ -21,5 +20,4 @@ class Pokemon extends PureComponent<IProps> {
     )
   }
 }
-
-export default Pokemon;
+export {Pokemon};
