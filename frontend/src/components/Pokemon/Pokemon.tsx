@@ -13,16 +13,16 @@ export interface IPokemon {
 };
 
 const Pokemon = (props: IPokemon) => {
-  const [count, setCount] = useState(0);
+  const [back, setBack] = useState(false);
 
   return (
     <Style.Wrapper>
       {/*tslint:disable-next-line:jsx-no-lambda*/}
-      <Style.switchIcon onClick={() => setCount(count + 1)}><img src={turnIcon} /></Style.switchIcon>
+      <Style.switchIcon onClick={() => setBack(!back)}><img src={turnIcon} /></Style.switchIcon>
       <div>{props.name}</div>
       <img
         src={
-          "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + (count % 2 === 0 ? "" : "back/") + props.id + ".png"}
+          "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + (back ? "back/" : "") + props.id + ".png"}
         alt={props.name}
       />
       <div><FormattedMessage id="pokemon.id" />: {props.id}</div>

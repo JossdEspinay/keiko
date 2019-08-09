@@ -17,5 +17,6 @@ export default {
   position:absolute;
   right: 0;
   top: 0;
+  cursor: pointer;
   `,
 };
