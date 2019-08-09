@@ -13,5 +13,19 @@
     "back": "Back",
     "api-to-translate-example": "This message is translated using directly react-intl API",
     "add-github-username": "Enter a github username"
+  },
+  "pokemon": {
+    "id": "Id",
+    "weight": "Weight",
+    "height": "Height",
+    "weightUnit": "kg",
+    "heightUnit": "cm"
+  },
+  "homePage": {
+    "loading": "Loading...",
+    "title": "Pokedex"
+  },
+  "errors": {
+    "general": "Oups! An error occured..."
   }
 }
