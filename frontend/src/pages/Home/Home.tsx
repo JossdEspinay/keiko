@@ -25,10 +25,12 @@ class Home extends React.Component<{}, IState> {
   async componentDidMount() {
 
     let response;
+    let pokemons
     try {
       response = await makeGetRequest('/pokemon');
+      pokemons = response.body.map((p: IPokemon) => ({ ...p, height: p.height * 10, weight: p.weight / 10 }))
       this.setState({
-        pokemons: [...response.body],
+        pokemons: [...pokemons],
         loading: false,
       })
     } catch (e) {
