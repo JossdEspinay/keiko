@@ -7,9 +7,8 @@ import { Route } from 'react-router';
 import { Store } from 'redux';
 import { Persistor } from 'redux-persist';
 import { PersistGate } from 'redux-persist/integration/react';
-import { createGlobalStyle } from 'styled-components'
-import pokemonFont from "./fonts/pokemon.ttf";
-
+import { createGlobalStyle } from 'styled-components';
+import pokemonFont from './assets/fonts/pokemon.ttf';
 
 import Root from './components/Root';
 import Routes from './routes';
@@ -30,7 +29,6 @@ const GlobalStyle = createGlobalStyle`
     font-family: Pokemon GB, Arial, Helvetica, sans-serif;
   }
 `;
-
 
 const RootComponentWithRoutes: React.FunctionComponent = () => (
   <Root>
