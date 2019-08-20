@@ -4,14 +4,17 @@ use App\Entity\Pokemon;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use App\Service\PokemonService;
 
+/**
+ * @Route("/pokemon")
+ */
 class PokemonController
 {
     /**
@@ -30,27 +33,34 @@ class PokemonController
      * @var ValidatorInterface
      */
     private $validator;
+    /**
+     * @var PokemonService
+     */
+    private $pokemonService;
 
     /**
      * @param NormalizerInterface $normalizer
      * @param EntityManagerInterface $entityManager
      * @param SerializerInterface $serializer
      * @param ValidatorInterface $validator
+     * @param PokemonService $pokemonService
      */
     public function __construct(
         NormalizerInterface $normalizer,
         EntityManagerInterface $entityManager,
         SerializerInterface $serializer,
-        ValidatorInterface $validator
+        ValidatorInterface $validator,
+        PokemonService $pokemonService
     ) {
         $this->normalizer = $normalizer;
         $this->entityManager = $entityManager;
         $this->serializer = $serializer;
         $this->validator = $validator;
+        $this->pokemonService = $pokemonService;
     }
 
     /**
-     * @Route("/pokemon", methods={"GET"})
+     * @Route("", methods={"GET"})
      * @return JsonResponse
      * @throws ExceptionInterface
      */
@@ -63,7 +73,7 @@ class PokemonController
     }
 
     /**
-     * @Route("/pokemon/{pokemonId}", methods={"GET"})
+     * @Route("/{pokemonId}", methods={"GET"})
      * @param $pokemonId
      * @return JsonResponse
      * @throws ExceptionInterface
@@ -80,22 +90,18 @@ class PokemonController
 
 
     /**
-     * @Route("/pokemon", methods={"POST"})
+     * @Route("", methods={"POST"})
+     *
      * @param Request $request
+     *
      * @return JsonResponse
      * @throws ExceptionInterface
      */
-    public function create(Request $request): Response
+    public function create(Request $request): JsonResponse
     {
-
         $pokemon = $this->serializer->deserialize($request->getContent(), Pokemon::class, 'json');
-        $errors = $this->validator->validate($pokemon);
-        if (count($errors) !== 0 ) {
-            throw new BadRequestHttpException($errors);
-        }
-        $this->entityManager->persist($pokemon);
-        $this->entityManager->flush();
-        $response = $this->normalizer->normalize($pokemon, 'json');
+        $createdPokemon = $this->pokemonService->create($pokemon);
+        $response = $this->normalizer->normalize($createdPokemon, 'json');
         return new JsonResponse($response);
     }
 
