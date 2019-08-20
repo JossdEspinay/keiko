@@ -4,11 +4,13 @@ use App\Entity\Pokemon;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class PokemonController
 {
@@ -25,18 +27,26 @@ class PokemonController
      */
     private $serializer;
     /**
-     * @param NormalizerInterface    $normalizer
+     * @var ValidatorInterface
+     */
+    private $validator;
+
+    /**
+     * @param NormalizerInterface $normalizer
      * @param EntityManagerInterface $entityManager
-     * @param SerializerInterface    $serializer
+     * @param SerializerInterface $serializer
+     * @param ValidatorInterface $validator
      */
     public function __construct(
         NormalizerInterface $normalizer,
         EntityManagerInterface $entityManager,
-        SerializerInterface $serializer
+        SerializerInterface $serializer,
+        ValidatorInterface $validator
     ) {
         $this->normalizer = $normalizer;
         $this->entityManager = $entityManager;
         $this->serializer = $serializer;
+        $this->validator = $validator;
     }
 
     /**
@@ -79,6 +89,10 @@ class PokemonController
     {
 
         $pokemon = $this->serializer->deserialize($request->getContent(), Pokemon::class, 'json');
+        $errors = $this->validator->validate($pokemon);
+        if (count($errors) !== 0 ) {
+            throw new BadRequestHttpException($errors);
+        }
         $this->entityManager->persist($pokemon);
         $this->entityManager->flush();
         $response = $this->normalizer->normalize($pokemon, 'json');
