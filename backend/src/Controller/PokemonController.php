@@ -1,7 +1,9 @@
 <?php
 namespace App\Controller;
 use App\Entity\Pokemon;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 
@@ -15,10 +17,11 @@ class PokemonController
     }
 
     /**
+     * @Route("/pokemon", methods={"GET"})
      * @return JsonResponse
      * @throws ExceptionInterface
      */
-    public function helloWorld(): JsonResponse
+    public function get(): JsonResponse
     {
         $pokemon = new Pokemon();
         $pokemon->setHeight('12');
@@ -27,5 +30,14 @@ class PokemonController
 
         $pokemonSerialized = $this->normalizer->normalize($pokemon, 'json');
         return new JsonResponse($pokemonSerialized);
+    }
+
+    /**
+     * @Route("/pokemon", methods={"POST"})
+     * @return Response
+     */
+    public function create(): Response
+    {
+        return new Response('Hello World test');
     }
 }
