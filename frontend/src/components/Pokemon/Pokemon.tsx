@@ -1,7 +1,8 @@
-import React, { PureComponent } from 'react';
+import React, { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-
+import turnIcon from './../../assets/svg/turn-ico.svg';
 import Style from './Pokemon.style';
+
 
 
 export interface IPokemon {
@@ -11,19 +12,25 @@ export interface IPokemon {
   weight: number;
 };
 
-class Pokemon extends PureComponent<IPokemon> {
+const Pokemon = (props: IPokemon) => {
+  const [back, setBack] = useState(false);
 
-  render() {
-    const { name, id, weight, height } = this.props;
-    return (
-      <Style.Wrapper>
-        <div>{name}</div>
-        <img src={"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + id + ".png"} alt={name} />
-        <div><FormattedMessage id="pokemon.id" />: {id}</div>
-        <div><FormattedMessage id="pokemon.weight" />: {weight} <FormattedMessage id="pokemon.weightUnit" /></div>
-        <div><FormattedMessage id="pokemon.height" />: {height} <FormattedMessage id="pokemon.heightUnit" /></div>
-      </Style.Wrapper>
-    )
-  }
+  return (
+    <Style.Wrapper>
+      {/*tslint:disable-next-line:jsx-no-lambda*/}
+      <Style.switchIcon onClick={() => setBack(!back)}><img src={turnIcon} /></Style.switchIcon>
+      <div>{props.name}</div>
+      <img
+        src={
+          "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + (back ? "back/" : "") + props.id + ".png"}
+        alt={props.name}
+      />
+      <div><FormattedMessage id="pokemon.id" />: {props.id}</div>
+      <div><FormattedMessage id="pokemon.weight" />: {props.weight} <FormattedMessage id="pokemon.weightUnit" /></div>
+      <div><FormattedMessage id="pokemon.height" />: {props.height} <FormattedMessage id="pokemon.heightUnit" /></div>
+    </Style.Wrapper>
+  )
 }
+
+
 export { Pokemon };
